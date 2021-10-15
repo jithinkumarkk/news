@@ -1,4 +1,6 @@
-import React from "react";
+import React from "react"; 
+
+import './calender.css'; 
 import { Form } from "semantic-ui-react";
 import {
   DateInput 

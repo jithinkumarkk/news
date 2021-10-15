@@ -1,0 +1,10 @@
+input[name="date"]{
+    background: #ddd !important;
+border: none !important;
+text-align: center !important;
+width: 135px !important;
+cursor: pointer;
+}
+input[name="date"]:focus{
+    background: #fff !important;
+}

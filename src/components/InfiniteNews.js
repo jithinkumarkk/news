@@ -9,11 +9,13 @@ export default class InfiniteNews extends React.Component  {
     country: 'in',
     pageSize: 8,
     category: 'general',
+    query: '',
   }
   static propTypes = {
     country: PropTypes.string,
     pageSize: PropTypes.number,
     category: PropTypes.string,
+    query: PropTypes.string
   }
   constructor(props) {
     super(props);
@@ -26,7 +28,15 @@ export default class InfiniteNews extends React.Component  {
   }
   
   async updateNews() {
-    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${News_Api_Key}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    let url="";
+    
+    if(this.props.query){ 
+      url =   `https://newsapi.org/v2/everything?q=${this.props.query}&sortBy=publishedAt&apiKey=${News_Api_Key}`; 
+    }
+    else
+    {
+       url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${News_Api_Key}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+     }
     this.setState({ loading: true });
     let data = await fetch(url);
     let parsedData = await data.json()
@@ -51,7 +61,14 @@ export default class InfiniteNews extends React.Component  {
   
   fetchMoreData = async () => {  
     this.setState({page: this.state.page + 1})
-    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${News_Api_Key}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    let url="";
+    
+    if(this.props.query){ 
+      url =   `https://newsapi.org/v2/everything?q=${this.props.query}&sortBy=publishedAt&apiKey=${News_Api_Key}`; 
+    }
+    else{
+     url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${News_Api_Key}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    }
     let data = await fetch(url);
     let parsedData = await data.json();
     if(parsedData.status == "error"){ 

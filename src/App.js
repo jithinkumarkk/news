@@ -1,4 +1,5 @@
-import React from "react";
+import React from "react"; 
+import 'semantic-ui-css/semantic.min.css'; 
 import './App.css'; 
 import SearchBar from "./components/SearchBar";
 import NavBar from './components/NavBar'; 
@@ -6,15 +7,15 @@ import WeatherInfo from './components/WeatherInfo';
 import InfiniteNews from "./components/InfiniteNews"; 
 import {
   BrowserRouter as Router,
-  Switch,
+  Switch,Navigate,
   Route,
 } from "react-router-dom";
 import Footer from "./components/Footer";
 import DatePicker from "./components/Calender";  
 import { News_Api_Key } from "./components/ApiKey";
-import NewsPlaceholder from "./components/PlaceHolder";
 import SearchItemList from "./components/searchList";
-const  getNews = async topic => {
+import { Container, Header } from "semantic-ui-react";
+ const  getNews = async topic => {
   const response = await fetch(
     `https://newsapi.org/v2/everything?q=${topic}&sortBy=publishedAt&apiKey=${News_Api_Key}`
   );
@@ -24,39 +25,37 @@ const  getNews = async topic => {
 };
 
 class App extends React.Component {
-
-  
   state = {
-    Newsarticles: [],
-    searchNewsTopic: "",
-    totalNewsResults: "",
-    Searchloading: false,
-    NewsapiError: "",
+    articles: [],
+    searchTopic: "",
+    totalResults: "",
+    loading: false,
+    apiError: ""
   };
-  searchNewsTopic = async topic => {
+
+  searchForTopic = async topic => {
     try {
-      this.setState({ loadSearchloadinging: true });
+      this.setState({ loading: true });
       const response = await getNews(topic);
-     // alert(response.totalResults);
       this.setState({
-        Newsarticles: response.articles,
-        searchNewsTopic: topic,
-        totalNewsResults: response.totalResults
+        articles: response.articles,
+        searchTopic: topic,
+        totalResults: response.totalResults
       });
-     window.history.push("/searchresults");
     } catch (error) {
-      this.setState({ NewsapiError: "Could not find any articles" });
+      this.setState({ apiError: "Could not find any articles" });
     }
-    this.setState({ Searchloading: false });
+    this.setState({ loading: false });
   };
+
   render() {
-   const {
-    Newsarticles,
-    NewsapiError,
-    Searchloading,
-    searchNewsTopic,
-    totalNewsResults
-  } = this.state;
+    const {
+      articles,
+      apiError,
+      loading,
+      searchTopic,
+      totalResults
+    } = this.state;
  return (   <div id="wrapper">
     <div id="main-content">
     <Router>
@@ -66,14 +65,14 @@ class App extends React.Component {
               <div className="logo">
                   <h2 id="logo-head">News App</h2> 
                 </div>  
-                <div className="search-bar"> <SearchBar searchNewsTopic={this.searchNewsTopic} ></SearchBar></div> 
+                
                 <div><WeatherInfo></WeatherInfo></div>
             </div>
             <div className="clear"></div> 
             <div className="header-bottom-wrap d-flex justify-content-between align-items-center">
-         
-               <NavBar></NavBar>
-               <div className="DatePick">
+              <NavBar style={{flex:5}} ></NavBar>
+              <div className="search-bar"  style={{ flexBasis:0,flex:1 }}> <SearchBar searchForTopic={this.searchForTopic} /></div> 
+               <div className="DatePick"   style={{ flex:1 }}>
               <DatePicker/>
               </div>
             </div>  
@@ -84,17 +83,31 @@ class App extends React.Component {
        <div className="section-wrapper row"> 
          <div className="news-container">  
 
-            {Newsarticles.length > 0 && <SearchItemList articles={Newsarticles}/> }
+         {loading && (
+          <p style={{ textAlign: "center" }}>Searching for articles...</p>
+        )}
+        {articles.length > 0 && (
+          <Header as="h4" style={{ textAlign: "center", margin: 20 }}>
+            Found {totalResults} articles on "{searchTopic}"
+          </Header>
+        )}
+        {articles.length > 0 && <SearchItemList articles={articles} />}
+        {apiError && <p>Could not fetch any articles. Please try again.</p>}
+
+           
             <Switch>
-              <Route exact path="/"><InfiniteNews key="general" country="in" category="general"/></Route> 
-              <Route exact path="/business"><InfiniteNews key="business" country="in" category="business"/></Route> 
-              <Route exact path="/entertainment"><InfiniteNews key="entertainment" country="in" category="entertainment"/></Route> 
-              <Route exact path="/general"><InfiniteNews key="general" country="in" category="general"/></Route> 
-              <Route exact path="/health"><InfiniteNews key="health" country="in" category="health"/></Route> 
-              <Route exact path="/science"><InfiniteNews key="science" country="in" category="science"/></Route> 
-              <Route exact path="/sports"><InfiniteNews key="sports" country="in" category="sports"/></Route> 
-              <Route exact path="/technology"><InfiniteNews key="technology" country="in" category="technology"/></Route> 
-              <Route exact path="/searchresults" Component={SearchItemList} />
+              <Route exact path="/"><InfiniteNews query="" key="general" country="in" category="general"/></Route> 
+              <Route exact path="/business"><InfiniteNews query="" key="business" country="in" category="business"/></Route> 
+              <Route exact path="/entertainment"><InfiniteNews  query="" key="entertainment" country="in" category="entertainment"/></Route> 
+              <Route exact path="/general"><InfiniteNews  query="" key="general" country="in" category="general"/></Route> 
+              <Route exact path="/health"><InfiniteNews  query="" key="health" country="in" category="health"/></Route> 
+              <Route exact path="/science"><InfiniteNews  query="" key="science" country="in" category="science"/></Route> 
+              <Route exact path="/sports"><InfiniteNews  query="" key="sports" country="in" category="sports"/></Route> 
+              <Route exact path="/technology"><InfiniteNews  query="" key="technology" country="in" category="technology"/></Route> 
+              <Route exact path='/search'><InfiniteNews  query={this.Qtopic} key="" country="" category=""/></Route> 
+              {/*<Route path="/search/:searchparams" component={InfiniteNews} /> <Route exact path="/searchresults"> 
+              <InfiniteNews  query={this.Qtopic} key="" country="" category=""/> 
+              </Route> */}
               </Switch>
          </div> 
           <div className="trending-news">
