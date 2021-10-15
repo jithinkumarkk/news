@@ -299,6 +299,7 @@ font-weight: 600;
     text-align: center;
     transition: all .5s;
     z-index: 10;
+    padding: 3em 3em;
   }
   .navbar-nav li{
     display: block;
@@ -316,12 +317,24 @@ font-weight: 600;
   }
   #check:checked ~ ul{
     left: 0;
+  }
+  .header-container{
+    gap: 0.5em; 
+    align-items: center;
+  }
+  #logo-head{
+    margin: 1em auto;
   }   
+  .logo{
+    float: left;
+width: 100%;
+  }
 }
 
-@media (max-width: 600px) {
+@media (min-width: 640px) {
   .header-container{
     gap: 1em; 
+    align-items: center;
   }
   #logo-head{
     margin: 1em 1em 0;
