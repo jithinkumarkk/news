@@ -1,38 +1,306 @@
-.App {
-  text-align: center;
+.justify-content-between {
+  justify-content: space-between !important;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.align-items-center {
+  align-items: center !important;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.d-flex {
+  display: flex !important;
+}
+.header-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  align-items: center;
+  gap: 3rem;
+   
+  justify-content: space-between;
+}
+#logo-head {
+  float: left;
+  margin: 1.5em 0;
+}
+.weather-container{
+  margin: 0;
+   }
+   
+  .weather_info{
+    float: right;
   }
+   .weather_info__container h2,.weather_info__container h1{
+    padding: 0;
+    padding-right: 0px;
+  font-size: 12px;
+  float: left;
+  margin: 1em; 
+  padding-right: 2em;
+  text-align: center;
+   }
+    
+  .weather_info__container h2{
+    font-size: 18px;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .weather_info__container h2 > img{
+    float: left;
+    margin: 0;
+    width: 100%;
+  }
+  .weather_info__container h1{
+    text-align: center;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  
+  }
+ .footer{
+  background: #262424;
+  color: #fff;
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1em 0;
+  }
+  .footer hr{
+      border: none;
+      border-bottom: solid 1px #474343;
+  }
+  .copyright{
+      padding: 1em 0;
+  }
+  .tag-line{
+      font-size: 14px;
+color: #ac542a;
+letter-spacing: .9px;
+  }
+  
+  .header-bottom-wrap {
+    border-top: 1px solid #DFDFDF;
+    border-bottom: 4px solid #131313; 
+padding: 11px 0;
+margin-bottom: 2em;
+  }
+.navbar-nav{
+  float: left;
+  height: 23px;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.nav-item{
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  padding: 3px 0;
+  margin: 0 12px;
+  line-height: 15px;
+  letter-spacing: .9px;
+  float: left;
+  display: block;
+}
+.nav-item:first-child{
+  padding-left: 0;
+}
+.nav-link{
+color: #3d3636;
+}
+.row-flex{
+  display: flex;
+  flex-direction: row;
+  gap: 0em;
+  align-items: center;
+}
+.news-card {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+ /* margin: 1rem auto;*/
+  box-shadow: 0 3px 7px -1px rgba(0, 0, 0, .1);
+  margin-bottom: 1.6%;
+  background: #fff;
+  line-height: 1.4;
+  font-family: sans-serif;
+  border-radius: 5px;
+  overflow: hidden;
+  z-index: 0;
+}
+.news-card a {
+  color: inherit;
+}
+.news-card a:hover {
+  color: #5ad67d;
+}
+.news-card:hover .photo {
+  transform: scale(1.3) rotate(3deg);
+}
+.news-card .meta {
+  position: relative;
+  z-index: 0;
+  height: 200px;
+}
+.news-card .photo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.2s;
+  background: #ddd;
+}
+.news-card .photo img{
+  max-width: 100%; 
+  min-height: 100%;
+}
+.news-card .details, .news-card .details ul {
+  margin: auto;
+  padding: 0;
+  list-style: none;
+}
+.news-card .details {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -100%;
+  margin: auto;
+  transition: left 0.2s;
+  background: rgba(0, 0, 0, .6);
+  color: #fff;
+  padding: 10px;
+  width: 100%;
+  font-size: 0.9rem;
+}
+.news-card .details a {
+  text-decoration: dotted underline;
+}
+.news-card .details ul li {
+  display: inline-block;
+}
+.news-card .details .author:before {
+  font-family: FontAwesome;
+  margin-right: 10px;
+  content: "\f007";
+}
+.news-card .details .date:before {
+  font-family: FontAwesome;
+  margin-right: 10px;
+  content: "\f133";
+}
+.news-card .details .tags ul:before {
+  font-family: FontAwesome;
+  content: "\f02b";
+  margin-right: 10px;
+}
+.news-card .details .tags li {
+  margin-right: 2px;
+}
+.news-card .details .tags li:first-child {
+  margin-left: -4px;
+}
+.news-card .description {
+  padding: 1rem;
+  background: #fff;
+  position: relative;
+  z-index: 1;
 }
 
-.App-link {
-  color: #61dafb;
+.news-card .description h1 {
+  line-height: 1.3;
+margin: 0;
+font-size: 1.4rem;
+font-weight: 600;
+}
+.news-card .description h2 {
+  font-size: 1rem;
+  font-weight: 300;
+  text-transform: uppercase;
+  color: #a2a2a2;
+  margin-top: 5px;
+}
+.news-card .description .read-more {
+  text-align: right;
+}
+.news-card .description .read-more a {
+  color: #5ad67d;
+  display: inline-block;
+  position: relative;
+  font-weight: 600;
+}
+.news-card .description .read-more a:after {
+  content: "\f061";
+  font-family: FontAwesome;
+  margin-left: -10px;
+  opacity: 0;
+  vertical-align: middle;
+  transition: margin 0.3s, opacity 0.3s;
+}
+.news-card .description .read-more a:hover:after {
+  margin-left: 5px;
+  opacity: 1;
+}
+.news-card p {
+  position: relative;
+  margin: 1rem 0 0;
+}
+.news-card p:first-of-type {
+  margin-top: 1.25rem;
+}
+.news-card p:first-of-type:before {
+  content: "";
+  position: absolute;
+  height: 5px;
+  background: #5ad67d;
+  width: 35px;
+  top: -0.75rem;
+  border-radius: 3px;
+}
+.news-card:hover .details {
+  left: 0%;
+}
+@media (min-width: 640px) {
+  .news-card {
+      flex-direction: row;
+      max-width: 900px;
+ }
+  .news-card .meta {
+      flex-basis: 40%;
+      height: auto;
+ }
+  .news-card .description {
+      flex-basis: 60%;
+ }
+  .news-card .description:before {
+      
+      content: "";
+      background: #fff;
+      width: 30px;
+      position: absolute;
+      left: -10px;
+      top: 0;
+      bottom: 0;
+      z-index: -1;
+ }
+  .news-card.alt {
+      flex-direction: row-reverse;
+ }
+  .news-card.alt .description:before {
+      left: inherit;
+      right: -10px;
+      transform: skew(3deg);
+ }
+  .news-card.alt .details {
+      padding-left: 25px;
+ }
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.search-bar{
+  flex-basis: 70%;
 }
+.ui.input{
+  min-width: 100%;
+}
+.prompt{
+  border-radius: 3px !important;
+} 
