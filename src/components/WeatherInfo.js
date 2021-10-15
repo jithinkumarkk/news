@@ -38,6 +38,7 @@ function WeatherInfo() {
     }, [latitude, longitude]);
   
     return (
+      <div>
       <div className="weather_info">
         <div className="weather_info__container"> 
           <div className="row-flex">
@@ -45,6 +46,7 @@ function WeatherInfo() {
           </div> 
           <h1>  {cityName}</h1>
         </div>
+      </div>
       </div>
     );
   }
