@@ -4,15 +4,16 @@ import { News_URL } from './ApiKey';
 import NewsPlaceholder from './PlaceHolder';
 import InfiniteScroll from "react-infinite-scroll-component";
 import NewsItem from "./NewsItem";
-import equal from 'fast-deep-equal'
-
+import equal from 'fast-deep-equal';
+import NewsGrids from './NewsGrids';
 export default class InfiniteNews extends React.Component  {
   static defaultProps = {
     country: 'in',
     pageSize: 8,
     category: 'general',
     query: '',
-    searchDate:'' 
+    searchDate:'',
+    dateQuery:'', 
    }
   static propTypes = {
     country: PropTypes.string,
@@ -20,7 +21,8 @@ export default class InfiniteNews extends React.Component  {
     category: PropTypes.string,
     query: PropTypes.string,
     searchDate: PropTypes.string,
-   }
+    dateQuery: PropTypes.string,
+  }
   constructor(props) {
     super(props);
     this.state = {
@@ -30,10 +32,6 @@ export default class InfiniteNews extends React.Component  {
         totalResults: 0
     } 
   }
-  
-
-
-  
   async updateNews() {
     let url="";
     if(this.props.query)
@@ -43,17 +41,19 @@ export default class InfiniteNews extends React.Component  {
     else if(this.props.searchDate)
     { 
        url = `${News_URL}&sortBy=publishedAt&from=${this.props.searchDate}&page=${this.state.page}&pageSize=${this.props.pageSize}&language=en`;
-    }
+       this.setState({
+        dateQuery :  false, 
+      })
+      }
     else
     {
-      url = `${News_URL}&topic=${this.props.category}&category=${this.props.category}&sortBy=popularity&page=${this.state.page}&pageSize=${this.props.pageSize}&language=en`;
+       url = `${News_URL}&topic=${this.props.category}&category=${this.props.category}&sortBy=popularity&page=${this.state.page}&pageSize=${this.props.pageSize}&language=en`;
     }
     //alert(url);
     this.setState({ loading: true });
     let data = await fetch(url);
     let parsedData = await data.json()
-    if(parsedData.status == "error"){ 
-       
+    if(parsedData.status == "error"){        
       alert(parsedData.message); 
       this.setState({
          loading: false, 
@@ -78,6 +78,8 @@ export default class InfiniteNews extends React.Component  {
     }
   } 
   
+
+  
   fetchMoreData = async () => {  
     this.setState({page: this.state.page + 1})
     let url="";
@@ -93,17 +95,15 @@ export default class InfiniteNews extends React.Component  {
     {
       url = `${News_URL}&topic=${this.props.category}&category=${this.props.category}&sortBy=popularity&page=${this.state.page}&pageSize=${this.props.pageSize}&language=en`;
     }
-     //alert(url);
+    //alert(url);
     let data = await fetch(url);
     let parsedData = await data.json();
     if(parsedData.status == "error"){ 
-       
-      alert(parsedData.message); 
-      this.setState({
-        loading: false, 
-     })
-    
-      return; 
+        alert(parsedData.message); 
+        this.setState({
+          loading: false, 
+        })    
+        return; 
     }
     this.setState({
         articles: this.state.articles.concat(parsedData.articles),
@@ -117,39 +117,58 @@ export default class InfiniteNews extends React.Component  {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
   
+  getHeadLine() {
+    if (this.props.query) {
+      return  <>
+      <div style={{ display: "flex", justifyContent: "space-between" ,maxWidth:"900px"}}>
+        <p>Search Results of {this.props.query} </p> <p> Total Results {this.state.totalResults}</p>
+      </div>          
+     </>
+    }
+    else if (this.props.searchDate && !this.props.query) {
+      return  <>
+      <div style={{ display: "flex", justifyContent: "space-between" ,maxWidth:"900px"}}>
+        <p>News On {this.props.searchDate} </p> <p> Total Results {this.state.totalResults}</p>
+      </div> 
+      </>
+    } 
+    else if (!this.props.searchDate && !this.props.query) {
+      return  this.capitalizeFirstLetter(this.props.category)
+    }
+  }
+   
   render() {
     return (
         <>
-         <h2 className="tag-line"> 
-        
-           {this.props.query && 
-            <>
-            <div style={{ display: "flex", justifyContent: "space-between" ,maxWidth:"900px"}}>
-            <p>Search Results of {this.props.query} </p> <p> Total Results {this.state.totalResults}</p>
-            </div>
-          
-           </>
-           }
-            {this.props.searchDate && 
-            
-            <>
-            <div style={{ display: "flex", justifyContent: "space-between" ,maxWidth:"900px"}}>
-            <p>News On {this.props.searchDate} </p> <p> Total Results {this.state.totalResults}</p>
-            </div> 
-            </>
-            }
+          { 
+           
+          this.props.category == "general" && this.props.dateQuery == false  && this.state.articles.length > 0 && 
+          <NewsGrids data= {this.state.articles} />  
+          }  
+         
+         <h2 className="tag-line">
+          { this.props.query && !this.props.searchDate && 
+            <p style={{ display: "flex", justifyContent: "space-between" ,maxWidth:"900px"}}><span>Search Results of {this.props.query}</span> <span>Total Results {this.state.totalResults}</span></p>  
+          }      
 
-           {!this.props.query || !this.props.searchDate && this.capitalizeFirstLetter(this.props.category)}</h2>
-          <div className="clear"><br></br></div> 
+          { this.props.searchDate && !this.props.query && 
+            <p style={{ display: "flex", justifyContent: "space-between" ,maxWidth:"900px"}}><span>News On {this.props.searchDate}</span> <span>Total Results {this.state.totalResults}</span></p>  
+          } 
+
+          { !this.props.searchDate && !this.props.query && 
+            <p> { this.capitalizeFirstLetter(this.props.category) }</p> 
+          }            
+          
+          </h2>
+            <div className="clear"><br></br></div> 
           {this.state.loading && <><NewsPlaceholder /><NewsPlaceholder /><NewsPlaceholder /><NewsPlaceholder /></>}
+        
           <InfiniteScroll
               dataLength={this.state.articles.length}
               next={this.fetchMoreData}
               hasMore={this.state.articles.length !== this.state.totalResults}
-              loader={<><NewsPlaceholder /><NewsPlaceholder /><NewsPlaceholder /><NewsPlaceholder /></>}
-          > 
+              loader={<><NewsPlaceholder /><NewsPlaceholder /><NewsPlaceholder /><NewsPlaceholder /></>}> 
               <div className="container">
-                  
               <div className="row">
                   {this.state.articles.map((element) => {
                       return <div  key={element.url}>
@@ -167,5 +186,6 @@ export default class InfiniteNews extends React.Component  {
               </div> 
           </InfiniteScroll>
         </>
-    )} 
+    )
+  } 
 } 

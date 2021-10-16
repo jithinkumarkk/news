@@ -7,16 +7,12 @@ import WeatherInfo from './components/WeatherInfo';
 import InfiniteNews from "./components/InfiniteNews"; 
 import {
   BrowserRouter as Router,
-  Switch,Navigate,
-  Route,
-  Redirect,
+  Switch,
+  Route 
 } from "react-router-dom";
 import Footer from "./components/Footer";
 import DatePicker from "./components/Calender";  
-import { News_Api_Key } from "./components/ApiKey";
-import SearchItemList from "./components/searchList";
-import { Container, Header } from "semantic-ui-react";
-  
+   
 class App extends React.Component {
   state = {  
     searchTopic: "" ,
@@ -32,6 +28,7 @@ class App extends React.Component {
   searchForTopic = async topic => {
      this.setState({
       searchTopic: topic,
+      searchDate: "",
     });
    };
 
@@ -39,6 +36,7 @@ class App extends React.Component {
   searchByDate = async Dates => {
     this.setState({
       searchDate: Dates,
+      searchTopic: "",
    });
   };
 
@@ -62,10 +60,9 @@ class App extends React.Component {
             </div>
             <div className="clear"></div> 
             <div className="header-bottom-wrap d-flex justify-content-between align-items-center">
-              <NavBar></NavBar>
-             
-               <div className="DatePick"   style={{ flex:1 }}>
-              <DatePicker searchByDate={this.searchByDate}/>
+              <NavBar></NavBar> 
+               <div className="DatePick">
+               <DatePicker searchByDate={this.searchByDate}/>
               </div>
             </div>  
     
@@ -74,8 +71,6 @@ class App extends React.Component {
        <div className="content"> 
        <div className="section-wrapper row"> 
          <div className="news-container">  
- 
-            
             <Switch>
               <Route exact path="/"><InfiniteNews searchDate={searchDate}  query={searchTopic} key="general" country="in" category="general"/></Route> 
               <Route exact path="/business"><InfiniteNews searchDate={searchDate} query={searchTopic} key="business" country="in" category="business"/></Route> 
@@ -85,19 +80,13 @@ class App extends React.Component {
               <Route exact path="/science"><InfiniteNews searchDate={searchDate}  query={searchTopic} key="science" country="in" category="science"/></Route> 
               <Route exact path="/sports"><InfiniteNews searchDate={searchDate}  query={searchTopic} key="sports" country="in" category="sports"/></Route> 
               <Route exact path="/technology"><InfiniteNews searchDate={searchDate}  query={searchTopic} key="technology" country="in" category="technology"/></Route> 
-              {/*<<Route path='/search'><InfiniteNews  query={searchTopic} key="" country="" category=""/></Route> 
-              
-              Route path="/search/:searchparams" component={InfiniteNews} /> <Route exact path="/searchresults"> 
-              <InfiniteNews  query={this.Qtopic} key="" country="" category=""/> 
-              </Route> */}
-              </Switch>
+            </Switch>
          </div> 
           <div className="trending-news">
           </div>
       </div>
       </div>
-    </Router>
-      
+    </Router>    
     <Footer/>
     </div>
     </div>
@@ -105,9 +94,5 @@ class App extends React.Component {
     );
   }
 }
-// function LandingPage() {
-//   return (
-//   );
-// }
-
+ 
 export default App;
