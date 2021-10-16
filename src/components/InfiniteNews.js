@@ -112,7 +112,7 @@ export default class InfiniteNews extends React.Component  {
   };
   capitalizeFirstLetter = (string) => {
     if(string == "general"){
-      string = "Latest News";
+      //string = "Latest News";
     }
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
@@ -140,8 +140,7 @@ export default class InfiniteNews extends React.Component  {
   render() {
     return (
         <>
-          { 
-           
+          {  
           this.props.category == "general" && this.props.dateQuery == false  && this.state.articles.length > 0 && 
           <NewsGrids data= {this.state.articles} />  
           }  
@@ -156,7 +155,12 @@ export default class InfiniteNews extends React.Component  {
           } 
 
           { !this.props.searchDate && !this.props.query && 
-            <p> { this.capitalizeFirstLetter(this.props.category) }</p> 
+            
+            <p className="block-title"> 
+             <div className="clear"><br></br></div> 
+            <span>{ this.capitalizeFirstLetter(this.props.category) }</span> 
+            <div class="block-subtitle">Latest</div> 
+            </p> 
           }            
           
           </h2>

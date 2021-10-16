@@ -45,7 +45,7 @@
       "grid0 grid0 grid0 grid3 grid3 grid4 grid4"
       "grid0 grid0 grid0 grid3 grid3 grid4 grid4";
   }
-  .news-grid0 { grid-area: grid0; height: 500px;}
+  .news-grid0 { grid-area: grid0; height: 502px;}
   .news-grid1 { grid-area: grid1; max-height: 250px;}
   .news-grid2 { grid-area: grid2; max-height: 250px;}
   .news-grid3 { grid-area: grid3;max-height: 250px; }

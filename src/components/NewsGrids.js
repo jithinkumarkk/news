@@ -2,8 +2,7 @@ import React from "react";
 import './grids.css' ;  
 import dummy_img from './dummy.png';
  class NewsGrids extends React.Component {  
-  render() {
-    
+  render() { 
     return (  
      <div class="news-grid-container">
         {this.props.data.slice(0, 5).map( (item,index) => 
