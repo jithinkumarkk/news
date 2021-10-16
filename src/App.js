@@ -65,13 +65,13 @@ class App extends React.Component {
               <div className="logo">
                   <h2 id="logo-head">News App</h2> 
                 </div>  
-                
+                <div className="search-bar"  style={{ flexBasis:0,flex:1 }}> <SearchBar searchForTopic={this.searchForTopic} /></div> 
                 <div><WeatherInfo></WeatherInfo></div>
             </div>
             <div className="clear"></div> 
             <div className="header-bottom-wrap d-flex justify-content-between align-items-center">
-              <NavBar style={{flex:5}} ></NavBar>
-              <div className="search-bar"  style={{ flexBasis:0,flex:1 }}> <SearchBar searchForTopic={this.searchForTopic} /></div> 
+              <NavBar></NavBar>
+             
                <div className="DatePick"   style={{ flex:1 }}>
               <DatePicker/>
               </div>
