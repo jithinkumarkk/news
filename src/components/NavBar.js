@@ -4,6 +4,7 @@ export class NavBar extends Component {
   
       handleChangeCheckBox = event => {
         document.getElementById("check").checked = false;
+        document.getElementById("news_search").value ="";
       };
     render() {
         return (
@@ -11,7 +12,7 @@ export class NavBar extends Component {
                              <input type="checkbox" id="check" checked={this.checked}/>
                                 <label for="check" class="checkbtn">
                                 <i class="fa fa-bars"></i>
-                                </label>
+                                </label> 
                          <ul className="navbar-nav"  style={{flex:5}} >
                             <li  onClick={this.handleChangeCheckBox}  className="nav-item"><Link className="nav-link" aria-current="page" for="check" to="/">Home</Link> </li>
                             <li onClick={this.handleChangeCheckBox}   className="nav-item"><Link className="nav-link" to="/business">Business</Link></li>

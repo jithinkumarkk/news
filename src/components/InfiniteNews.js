@@ -1,22 +1,26 @@
 import React, { Component } from 'react';  
 import PropTypes from 'prop-types'; 
-import { News_Api_Key } from './ApiKey'; 
+import { News_URL } from './ApiKey'; 
 import NewsPlaceholder from './PlaceHolder';
 import InfiniteScroll from "react-infinite-scroll-component";
 import NewsItem from "./NewsItem";
+import equal from 'fast-deep-equal'
+
 export default class InfiniteNews extends React.Component  {
   static defaultProps = {
     country: 'in',
     pageSize: 8,
     category: 'general',
     query: '',
-  }
+    searchDate:'' 
+   }
   static propTypes = {
     country: PropTypes.string,
     pageSize: PropTypes.number,
     category: PropTypes.string,
-    query: PropTypes.string
-  }
+    query: PropTypes.string,
+    searchDate: PropTypes.string,
+   }
   constructor(props) {
     super(props);
     this.state = {
@@ -27,17 +31,24 @@ export default class InfiniteNews extends React.Component  {
     } 
   }
   
+
+
+  
   async updateNews() {
     let url="";
-    
-    if(this.props.query){ 
-      url =   `https://newsapi.org/v2/everything?q=${this.props.query}&sortBy=publishedAt&apiKey=${News_Api_Key}`; 
+    if(this.props.query)
+    { 
+       url = `${News_URL}&q=${this.props.query}&sortBy=popularity&language=en&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    }
+    else if(this.props.searchDate)
+    { 
+       url = `${News_URL}&sortBy=publishedAt&from=${this.props.searchDate}&page=${this.state.page}&pageSize=${this.props.pageSize}&language=en`;
     }
     else
     {
-       url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${News_Api_Key}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
-     }
-     //alert(url);
+      url = `${News_URL}&topic=${this.props.category}&category=${this.props.category}&sortBy=popularity&page=${this.state.page}&pageSize=${this.props.pageSize}&language=en`;
+    }
+    //alert(url);
     this.setState({ loading: true });
     let data = await fetch(url);
     let parsedData = await data.json()
@@ -61,7 +72,7 @@ export default class InfiniteNews extends React.Component  {
   }
   
   async componentDidUpdate(prevProps) {
-    if(!equal(this.props.query, prevProps.query)) //  
+    if( (!equal(this.props.query, prevProps.query) ) || (!equal(this.props.searchDate, prevProps.searchDate) ) ) //  
     {
       this.updateNews();
     }
@@ -70,13 +81,19 @@ export default class InfiniteNews extends React.Component  {
   fetchMoreData = async () => {  
     this.setState({page: this.state.page + 1})
     let url="";
-    
-    if(this.props.query){ 
-      url =   `https://newsapi.org/v2/everything?q=${this.props.query}&sortBy=publishedAt&apiKey=${News_Api_Key}`; 
+    if(this.props.query)
+    { 
+       url = `${News_URL}&q=${this.props.query}&sortBy=popularity&language=en&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     }
-    else{
-     url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${News_Api_Key}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    else if(this.props.searchDate)
+    { 
+       url = `${News_URL}&sortBy=popularity&from=${this.props.searchDate}&page=${this.state.page}&pageSize=${this.props.pageSize}&language=en`;
     }
+    else
+    {
+      url = `${News_URL}&topic=${this.props.category}&category=${this.props.category}&sortBy=popularity&page=${this.state.page}&pageSize=${this.props.pageSize}&language=en`;
+    }
+     //alert(url);
     let data = await fetch(url);
     let parsedData = await data.json();
     if(parsedData.status == "error"){ 
@@ -103,9 +120,26 @@ export default class InfiniteNews extends React.Component  {
   render() {
     return (
         <>
-         <h2 className="tag-line">
+         <h2 className="tag-line"> 
+        
+           {this.props.query && 
+            <>
+            <div style={{ display: "flex", justifyContent: "space-between" ,maxWidth:"900px"}}>
+            <p>Search Results of {this.props.query} </p> <p> Total Results {this.state.totalResults}</p>
+            </div>
           
-           {this.capitalizeFirstLetter(this.props.category)}</h2>
+           </>
+           }
+            {this.props.searchDate && 
+            
+            <>
+            <div style={{ display: "flex", justifyContent: "space-between" ,maxWidth:"900px"}}>
+            <p>News On {this.props.searchDate} </p> <p> Total Results {this.state.totalResults}</p>
+            </div> 
+            </>
+            }
+
+           {!this.props.query || !this.props.searchDate && this.capitalizeFirstLetter(this.props.category)}</h2>
           <div className="clear"><br></br></div> 
           {this.state.loading && <><NewsPlaceholder /><NewsPlaceholder /><NewsPlaceholder /><NewsPlaceholder /></>}
           <InfiniteScroll
@@ -118,13 +152,13 @@ export default class InfiniteNews extends React.Component  {
                   
               <div className="row">
                   {this.state.articles.map((element) => {
-                      return <div className="col-md-4" key={element.url}>
+                      return <div  key={element.url}>
                           <NewsItem
                           title={element.title ? element.title : ""} 
                           description={element.description ? element.description : ""} 
-                          imageUrl={element.urlToImage} 
+                          imageUrl={element.urlToImage ?? element.image} 
                           newsUrl={element.url} 
-                          author={element.author}
+                          author={element.source.name}
                           date={element.publishedAt} 
                           source={element.source.name} />
                       </div>

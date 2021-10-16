@@ -1,5 +1,4 @@
 import React from "react"; 
-
 import './calender.css'; 
 import { Form } from "semantic-ui-react";
 import {
@@ -13,13 +12,19 @@ export default class DatePicker extends React.Component {
         date: new Date()
     };
   }
-
+ 
   handleChange = (event, { name, value }) => {
     if (this.state.hasOwnProperty(name)) {
-      this.setState({ [name]: value });
+      this.setState({ 
+        [name]: value,
+        searchDate :value
+      });
+      //alert(value);
+      this.props.searchByDate(value);
+      //alert(this.state.searchDate);
     }
   };
-
+   
   render() {
     return (
       <Form>
@@ -30,7 +35,6 @@ export default class DatePicker extends React.Component {
           iconPosition="left"
           onChange={this.handleChange}
         />
-   
       </Form>
     );
   }
