@@ -37,6 +37,7 @@ export default class InfiniteNews extends React.Component  {
     {
        url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${News_Api_Key}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
      }
+     //alert(url);
     this.setState({ loading: true });
     let data = await fetch(url);
     let parsedData = await data.json()
@@ -58,6 +59,13 @@ export default class InfiniteNews extends React.Component  {
   async componentDidMount() {
     this.updateNews();
   }
+  
+  async componentDidUpdate(prevProps) {
+    if(!equal(this.props.query, prevProps.query)) //  
+    {
+      this.updateNews();
+    }
+  } 
   
   fetchMoreData = async () => {  
     this.setState({page: this.state.page + 1})
@@ -95,7 +103,9 @@ export default class InfiniteNews extends React.Component  {
   render() {
     return (
         <>
-         <h2 className="tag-line">{this.capitalizeFirstLetter(this.props.category)}</h2>
+         <h2 className="tag-line">
+          
+           {this.capitalizeFirstLetter(this.props.category)}</h2>
           <div className="clear"><br></br></div> 
           {this.state.loading && <><NewsPlaceholder /><NewsPlaceholder /><NewsPlaceholder /><NewsPlaceholder /></>}
           <InfiniteScroll

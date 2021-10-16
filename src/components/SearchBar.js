@@ -13,6 +13,7 @@ class SearchBar extends React.Component {
     event.preventDefault();
     this.props.searchForTopic(this.state.searchTopic);
     // this.setState({ searchTopic: event.target.value });
+    
   };
   render() {
     return ( 
