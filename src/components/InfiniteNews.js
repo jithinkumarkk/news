@@ -6,6 +6,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import NewsItem from "./NewsItem";
 import equal from 'fast-deep-equal';
 import NewsGrids from './NewsGrids';
+import { Placeholder,  PlaceholderImage } from 'semantic-ui-react'
+
 export default class InfiniteNews extends React.Component  {
   static defaultProps = {
     country: 'in',
@@ -29,7 +31,8 @@ export default class InfiniteNews extends React.Component  {
         articles: [],
         loading: true,
         page: 1,
-        totalResults: 0
+        totalResults: 0,
+        grids: 5
     } 
   }
   async updateNews() {
@@ -144,7 +147,19 @@ export default class InfiniteNews extends React.Component  {
           this.props.category == "general" && this.props.dateQuery == false  && this.state.articles.length > 0 && 
           <NewsGrids data= {this.state.articles} />  
           }  
-         
+          {this.state.loading && <>
+          <div class="news-grid-container">
+          {Array.from(Array(this.state.grids)).map((x, index) =>
+          <div className={"news-grid"+ index +" image-container"}>  
+           <Placeholder>
+             <PlaceholderImage/>
+          </Placeholder> 
+          </div>
+          )}
+          </div>
+          </>
+          }
+
          <h2 className="tag-line">
           { this.props.query && !this.props.searchDate && 
             <p style={{ display: "flex", justifyContent: "space-between" ,maxWidth:"900px"}}><span>Search Results of {this.props.query}</span> <span>Total Results {this.state.totalResults}</span></p>  
@@ -165,7 +180,16 @@ export default class InfiniteNews extends React.Component  {
           
           </h2>
             <div className="clear"><br></br></div> 
-          {this.state.loading && <><NewsPlaceholder /><NewsPlaceholder /><NewsPlaceholder /><NewsPlaceholder /></>}
+          <div className="d-flex justify-content-between align-items-top d-flex-rows"> 
+            <div className="news-container flex-basis-70">  
+          {this.state.loading && <><NewsPlaceholder /><NewsPlaceholder /><NewsPlaceholder /><NewsPlaceholder />
+            <div className="clear"><br></br></div> 
+             <div align="center">
+             <p>Loading....</p>
+             </div>
+             <div className="clear"><br></br></div> 
+          
+          </>}
         
           <InfiniteScroll
               dataLength={this.state.articles.length}
@@ -189,6 +213,13 @@ export default class InfiniteNews extends React.Component  {
               </div>
               </div> 
           </InfiniteScroll>
+          </div>
+          <div className="weather-card flex-basis-30">
+           <div className="section-wrapper">
+           <h2>Weather</h2>  
+           </div> 
+          </div>
+         </div>   
         </>
     )
   } 

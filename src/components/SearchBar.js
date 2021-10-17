@@ -1,6 +1,6 @@
 import React from 'react';
 import { Search } from 'semantic-ui-react' ;
-import { Button, Form } from "semantic-ui-react";
+import {  Form } from "semantic-ui-react";
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);
