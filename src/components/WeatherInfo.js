@@ -21,15 +21,17 @@ function WeatherInfo() {
         const res = await axios.get(
           `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${Weather_Api_Key}&units=metric`
         ); 
+        console.log(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${Weather_Api_Key}&units=metric`)
         setTemperature(res.data.main.temp);
         setCityName(res.data.name);
         setWeather(res.data.weather[0].main);
         setWeather_img(
           'http://openweathermap.org/img/w/'+res.data.weather[0].icon+'.png'
          ) 
-        console.log(res.data);
+        //console.log(res.data);
       } catch (err) {
-        console.error(err);
+       alert("Weather Information Server Error !")
+        // console.error(err);
       }
     };
   

@@ -89,5 +89,13 @@
 @media screen and (max-width: 800px) {
   .news-grid-container>div{
     height: auto;
+    overflow: hidden;
+  }
+  .news-grid-container>div > .info > h1,.news-grid-container>div > .info > p {
+    white-space: nowrap; 
+  
+  overflow: hidden;
+  text-overflow: ellipsis; 
+   
   }
 }

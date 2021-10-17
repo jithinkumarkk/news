@@ -1,0 +1,99 @@
+@import url('https://cdn.materialdesignicons.com/2.7.94/css/materialdesignicons.min.css');
+.main-display {
+    align-items: flex-start;
+    display: flex;
+    justify-content: start;
+    margin: .5rem 0 .5rem 0;
+}
+
+.main-info {
+    align-items: flex-start;
+    display: flex;
+    justify-content: start;
+    order: 0;
+}
+
+.temp-measurement {
+    color: #333;
+    font-size: 5rem;
+    font-weight: 500;
+    line-height: .85;
+}
+
+.temp-unit {
+    vertical-align: top;
+}
+
+.sub-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: 0 0 0 .8rem;
+    order: 1;
+}
+
+.sub-info-title {
+    font-size: 1.15em;
+    margin: 0 0 .3rem 0;
+    text-align: start;
+}
+
+.sub-info-text {
+    font-size: 1em;
+color: #333;
+margin: 0 0 2rem 0;
+text-align: start;
+}
+
+.sub-info-text .max-temp {
+/*     font-weight: 700; */
+    margin: 0 .5rem 0 -.1rem;
+}
+
+.selection-panel {
+    margin: 1.8rem 0 1.8rem -.6rem;
+}
+
+.selection-row {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    margin: 0rem 0 0 0;
+    flex-direction: row;
+}
+
+.selection-days {
+    color: #333;
+    font-size: .7rem;
+    font-weight: 700;
+    width: 25%;
+	text-align: center;
+	border-right: solid 1px #898989;
+}
+
+.selection-weather {
+    color: #333;
+    font-size: .7rem;
+	width: 25%;
+	text-align: center;
+}
+
+.selection-icons {
+	color: #797979;
+	font-size: 2rem;
+	width: 25%;
+	text-align: center;
+	border-right: solid 1px #898989;
+}
+.selection-icons:last-child,.selection-days:last-child{
+	border: none;
+}
+hr{
+	border: none;
+	border-bottom: solid 1px #898989;
+}
+.selected {
+    color: #31a150;
+    transition: all .3s ease-in-out;
+}
+

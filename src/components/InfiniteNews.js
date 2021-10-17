@@ -6,7 +6,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import NewsItem from "./NewsItem";
 import equal from 'fast-deep-equal';
 import NewsGrids from './NewsGrids';
-import { Placeholder,  PlaceholderImage } from 'semantic-ui-react'
+import { Placeholder,  PlaceholderImage } from 'semantic-ui-react'; 
+import WeatherForCast from './WeatherForCast';
 
 export default class InfiniteNews extends React.Component  {
   static defaultProps = {
@@ -16,6 +17,7 @@ export default class InfiniteNews extends React.Component  {
     query: '',
     searchDate:'',
     dateQuery:'', 
+    
    }
   static propTypes = {
     country: PropTypes.string,
@@ -35,6 +37,7 @@ export default class InfiniteNews extends React.Component  {
         grids: 5
     } 
   }
+  
   async updateNews() {
     let url="";
     if(this.props.query)
@@ -216,7 +219,8 @@ export default class InfiniteNews extends React.Component  {
           </div>
           <div className="weather-card flex-basis-30">
            <div className="section-wrapper">
-           <h2>Weather</h2>  
+           <h2>Weather</h2>
+            <WeatherForCast/>
            </div> 
           </div>
          </div>   
